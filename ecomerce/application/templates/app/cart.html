@@ -1,0 +1,54 @@
+{% extends "app/base.html" %}
+{% load static %}
+
+{% block title %}Shopping Cart{% endblock title %}
+
+{% block main-content %}
+<div class="cart-container">
+    <h1>Your Shopping Cart</h1>
+    {% if cart.items.all %}
+        <div class="cart-header">
+            <span>Product</span>
+            <span>Quantity</span>
+            <span>Original Price</span>
+            <span>Discounted Price</span>
+            <span>Price</span>
+            <span>Total</span>
+        </div>
+        <div class="cart-items">
+            {% for item in cart.items.all %}
+                <div class="cart-item">
+                    <div class="product">
+                        <img src="{{ item.product.product_image.url }}" alt="Product Image">
+                        <span class="product-name">{{ item.product.title }}</span>
+                    </div>
+                    <div class="quantity">
+                        <button class="decrease">-</button>
+                        <input type="text" value="{{ item.quantity }}" readonly>
+                        <button class="increase">+</button>
+                    </div>
+                    <div class="price">{{ item.product.selling_price }}</div>
+                    <div class="price">{{ item.product.discounted_price }}</div>
+                    <div class="total">{{ item.get_total_price }}</div>
+                    <a href="{% url 'remove_from_cart' item.pk %}" class="remove">Remove</a>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="cart-summary">
+            <div class="summary-item">
+                <span>Subtotal</span>
+                <span>{{ cart.get_subtotal }}</span>
+            </div>
+            <div class="summary-item">
+                <span>Total</span>
+                <span>{{ cart.get_total }}</span>
+            </div>
+            <button class="checkout">
+                <a href="{% url 'checkout' %}">Checkout</a>
+            </button>
+        </div>
+    {% else %}
+        <p>Your cart is empty.</p>
+    {% endif %}
+</div>
+{% endblock main-content %}

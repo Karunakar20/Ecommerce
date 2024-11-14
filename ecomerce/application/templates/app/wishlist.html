@@ -1,0 +1,38 @@
+{% extends "app/base.html" %}
+{% load static %}
+
+{% block title %}Wishlist{% endblock title %}
+
+{% block main-content %}
+<h1>Your Wishlist</h1>
+
+    
+    {% for product in wishlist %}
+
+
+    <div class="col-md-4 text-center mb-4">
+
+            <div>
+                <img src="{{ product.product_image.url }}" width="300px" height="200px" />
+                <div class="fw-bold">{{ product.title }}</div>
+                <div class="fw-bold text-danger">
+                    Rs.{{ product.discounted_price }}/-
+                    <small class="fw-light text-decoration-line-through">{{ product.selling_price }}</small>
+
+                    <a href="{% url 'remove_from_wishlist' product.id %}">Remove</a>
+
+
+                </div>
+
+                <br><br>
+            
+                
+            </div>
+        </a>
+        <div>
+    
+    {% endfor %}
+
+  
+
+{% endblock main-content %}
